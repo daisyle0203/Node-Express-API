@@ -15,8 +15,6 @@ router.get("/", (req, res) => {
 router.post("/", (req, res) => {
   const user = req.body
 
-  // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
-
   const userWithId = { ...user, id: uuidv4() }
 
   users.push(userWithId)
@@ -38,6 +36,25 @@ router.delete("/:id", (req, res) => {
   users = users.filter((user) => user.id !== id)
 
   res.send(`User with the id ${id} deleted from the database.`)
+})
+
+router.patch("/:id", (req, res) => {
+  const { id } = req.params
+  const { firstName, lastName, age } = req.body
+
+  const updatedUser = users.find((user) => user.id === id)
+
+  if (firstName) {
+    updatedUser.firstName = firstName
+  }
+
+  if (lastName) {
+    updatedUser.lastName = lastName
+  }
+
+  if (age) {
+    updatedUser.age = age
+  }
 })
 
 export default router
